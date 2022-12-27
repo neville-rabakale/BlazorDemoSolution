@@ -1,0 +1,72 @@
+﻿@page "/Data/People"
+
+@using Models
+@using Models.Entities
+
+
+@inject DataService service
+
+<h1>People Page</h1>
+
+<h4>Insert New Person</h4>
+@*remember ON VALID SUBMIT --- ModelStateIsValid
+*@
+<EditForm Model="@newPerson" OnValidSubmit="@InsertPerson">
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
+
+    <InputText id="firstName" @bind-Value="newPerson.FirstName"/>
+    <InputText id="lastName" @bind-Value="newPerson.LastName"/>
+    <InputText id="email" @bind-Value="newPerson.Email"/>
+
+    <button type="submit" class="btn btn-primary">submit</button>
+
+</EditForm>
+
+<h4> Current People</h4>
+
+@if(people == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var person in people)
+            {
+               <tr>
+                   <td>@person.FirstName</td>
+                   <td>@person.LastName</td>
+                   <td>@person.Email</td>
+               </tr> 
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    private Person[] people;
+    private DisplayPersonModel newPerson = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        people = await service.GetAllPeopleAsync();
+    }
+
+    private async Task InsertPerson()
+    {
+        await service.AddPersonAsync(newPerson);
+        people = await service.GetAllPeopleAsync();
+        newPerson = new();
+
+    }
+}

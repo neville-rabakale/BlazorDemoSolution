@@ -1,0 +1,12 @@
+insert into People (FirstName, LastName, Email)
+values
+	('Neville', 'Rabakale', 'neville.rabakale@gmail.com'),
+	('Viktoria', 'Lidsell', 'viktoria.lidsell@gmail.com'),
+	('Allen', 'Laing', 'Allen.laing@gmail.com')
+go
+
+  "ConnectionStrings": {
+    "DefaultConnection": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=BlazorDemoSql;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
+  },
+
+Scaffold-DbContext -Connection name=DefaultConnection -Provider Microsoft.EntityFrameworkCore.SqlServer -Project "BlazorDemo" -OutputDir "Models/Entities" -Context "BlazorDemoContext" -NoOnConfiguring -Force
