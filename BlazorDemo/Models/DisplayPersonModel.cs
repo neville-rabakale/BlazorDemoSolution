@@ -17,3 +17,4 @@ namespace BlazorDemo.Models
         public string? Email { get; set; }
     }
 }
+
